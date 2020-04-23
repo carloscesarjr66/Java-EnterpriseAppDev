@@ -26,7 +26,7 @@
 			<groupId>oracle</groupId>
 			<artifactId>jdbc-driver</artifactId>
 			<version>8</version>
-			<scope>system</scope>
+			<scope>system</scope><!-- Caminho ojdbc8 abaixo -->
 			<systemPath>/home/juan/Dependencias/ojdbc8.jar</systemPath>
 		</dependency>
 	</dependencies>
