@@ -24,6 +24,18 @@ import javax.persistence.TemporalType;
 @SequenceGenerator(name = "pessoa", sequenceName = "SQ_TB_PESSOA", allocationSize = 1)
 public class Pessoa {
 	
+	public Pessoa(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpfReceptor,
+			String rgReceptor, String sexo, Endereco endereco) {
+		super();
+		this.nome = nome;
+		this.dataNascimento = dataNascimento;
+		this.tipoSanguineo = tipoSanguineo;
+		this.peso = peso;
+		this.cpfReceptor = cpfReceptor;
+		this.rgReceptor = rgReceptor;
+		this.sexo = sexo;
+		this.endereco = endereco;
+	}
 	//ATRIBUTOS
 	@Id
 	@Column(name="cod_pessoa")
@@ -42,10 +54,10 @@ public class Pessoa {
 	private TipoSanguineo tipoSanguineo;
 	
 	@Column(name = "peso")
-	private float peso;
+	private double peso;
 	
 	@Column(name = "cpf_recpt")
-	private double cpfReceptor;
+	private String cpfReceptor;
 	
 	@Column(name = "rg_recept")
 	private String rgReceptor;
@@ -88,16 +100,16 @@ public class Pessoa {
 	public void setTipoSanguineo(TipoSanguineo tipoSanguineo) {
 		this.tipoSanguineo = tipoSanguineo;
 	}
-	public float getPeso() {
+	public double getPeso() {
 		return peso;
 	}
-	public void setPeso(float peso) {
+	public void setPeso(double peso) {
 		this.peso = peso;
 	}
-	public double getCpfReceptor() {
+	public String getCpfReceptor() {
 		return cpfReceptor;
 	}
-	public void setCpfReceptor(double cpfReceptor) {
+	public void setCpfReceptor(String cpfReceptor) {
 		this.cpfReceptor = cpfReceptor;
 	}
 	public String getRgReceptor() {

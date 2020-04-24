@@ -1,9 +1,11 @@
 package br.com.fiap.exception;
 
 public class KeyNotFoundException extends Exception{
+
+	private static final long serialVersionUID = 1L;
+
 	public KeyNotFoundException() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public KeyNotFoundException(String message, Throwable cause, boolean enableSuppression,

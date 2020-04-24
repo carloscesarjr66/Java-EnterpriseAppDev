@@ -1,6 +1,7 @@
 package br.com.fiap.entity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,6 +22,14 @@ import javax.persistence.Table;
 @Table(name="TB_DOADOR")
 @SequenceGenerator(name = "doador", sequenceName = "SQ_TB_DOADOR", allocationSize = 1)
 public class Doador extends Pessoa {
+	public Doador(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpfReceptor,
+			String rgReceptor, String sexo, Endereco endereco, char stVivo, List<Instituicao> instituicao,
+			List<Orgao> orgaos) {
+		super(nome, dataNascimento, tipoSanguineo, peso, cpfReceptor, rgReceptor, sexo, endereco);
+		this.stVivo = stVivo;
+		this.instituicao = instituicao;
+		this.orgaos = orgaos;
+	}
 
 	//ATRIBUTOS
 	@Id
@@ -43,8 +52,6 @@ public class Doador extends Pessoa {
 		orgaos.add(orgao);
 		orgao.setDoador(this);
 	}
-	
-	
 	
 	//CONSTRUTORES
 	public Doador() {
