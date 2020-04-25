@@ -33,7 +33,7 @@
 			<artifactId>jdbc-driver</artifactId>
 			<version>12</version>
 			<scope>system</scope><!-- Caminho ojdbc8 abaixo -->
-			<systemPath>C:\Users\User\Documents\[FIAP]\ojdbc8.jar</systemPath>
+			<systemPath>/home/juan/Dependencias/ojdbc8.jar</systemPath>
 		</dependency>
 	</dependencies>
 </project>

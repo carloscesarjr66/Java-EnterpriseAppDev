@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,8 +19,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TB_RECEPTOR")
 @SequenceGenerator(name = "receptor", sequenceName = "SQ_TB_RECEPTOR", allocationSize = 1)
+@DiscriminatorValue(value="R")
 public class Receptor extends Pessoa {
 	
 	//ATRIBUTOS
@@ -33,7 +34,7 @@ public class Receptor extends Pessoa {
 	private String email;
 	
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JoinColumn(name="cod_transplante", nullable = false)
+	@JoinColumn(name="cod_transplante")
 	private Transplante transplante;
 	
 	@ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)

@@ -29,7 +29,7 @@ public class Instituicao {
 	@Column(name = "nm_instituicao")
 	private String nome;
 	
-	@ManyToMany(mappedBy = "instituicao")
+	@ManyToMany(mappedBy = "instituicoes")
 	private List<Receptor>receptores=new ArrayList<Receptor>();
 	
 	@OneToOne(mappedBy = "instituicao", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)

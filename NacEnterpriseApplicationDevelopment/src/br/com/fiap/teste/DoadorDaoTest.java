@@ -1,6 +1,9 @@
 package br.com.fiap.teste;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -19,6 +22,7 @@ import br.com.fiap.dao.impl.DoadorDaoImpl;
 import br.com.fiap.entity.Doador;
 import br.com.fiap.entity.Endereco;
 import br.com.fiap.entity.Instituicao;
+import br.com.fiap.entity.Orgao;
 import br.com.fiap.entity.TipoSanguineo;
 import br.com.fiap.exception.CommitException;
 import br.com.fiap.exception.KeyNotFoundException;
@@ -31,6 +35,7 @@ class DoadorDaoTest {
 	Doador doador;
 	Endereco endereco;
 	List<Instituicao> instituicoes;
+	List<Orgao>orgaos;
 	
 	@BeforeAll
 	static void inicializar() {
@@ -46,7 +51,7 @@ class DoadorDaoTest {
 				TipoSanguineo.A_POSITIVO,
 				80.4, "12345678901", "7890567", "M", 
 				endereco,
-				(char) 0, instituicoes, null);
+				(char) 0, instituicoes, orgaos);
 		daoDoador.cadastrar(doador);
 		try {
 			daoDoador.commit();
@@ -96,7 +101,7 @@ class DoadorDaoTest {
 	void buscaSucessoTest() {
 		try {
 			Doador busca = daoDoador.pesquisar(doador.getCodigo());
-			assertEquals("Mario da Silva", busca.getNome());
+			assertEquals("Marco da Silva", busca.getNome());
 		} catch (KeyNotFoundException e) {
 			fail("Doador não existe no banco");
 		}

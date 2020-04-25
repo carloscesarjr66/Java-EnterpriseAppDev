@@ -5,6 +5,8 @@ import java.util.Calendar;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,6 +14,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -22,6 +26,9 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="TB_PESSOA")
 @SequenceGenerator(name = "pessoa", sequenceName = "SQ_TB_PESSOA", allocationSize = 1)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="DS_TIPO")
+@DiscriminatorValue("Pessoa")
 public class Pessoa {
 	
 	public Pessoa(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpfReceptor,
@@ -37,6 +44,7 @@ public class Pessoa {
 		this.endereco = endereco;
 	}
 	//ATRIBUTOS
+	
 	@Id
 	@Column(name="cod_pessoa")
 	@GeneratedValue(generator = "pessoa", strategy = GenerationType.SEQUENCE)
