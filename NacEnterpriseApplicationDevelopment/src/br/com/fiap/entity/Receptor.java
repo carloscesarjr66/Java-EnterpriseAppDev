@@ -25,10 +25,9 @@ import javax.persistence.SequenceGenerator;
 public class Receptor extends Pessoa {
 	
 	public Receptor(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpfReceptor,
-			String rgReceptor, String sexo, Endereco endereco, int codigo, String telefone, String email,
+			String rgReceptor, String sexo, Endereco endereco, String telefone, String email,
 			Transplante transplante, List<Instituicao> instituicoes) {
 		super(nome, dataNascimento, tipoSanguineo, peso, cpfReceptor, rgReceptor, sexo, endereco);
-		this.codigo = codigo;
 		this.telefone = telefone;
 		this.email = email;
 		this.transplante = transplante;

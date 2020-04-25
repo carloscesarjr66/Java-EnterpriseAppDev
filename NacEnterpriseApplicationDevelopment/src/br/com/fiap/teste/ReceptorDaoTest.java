@@ -53,8 +53,7 @@ public class ReceptorDaoTest {
 				new GregorianCalendar(1987, 5, 20), 
 				TipoSanguineo.A_POSITIVO,
 				74.4, "85698745621", "7458793", "M", 
-				endereco,
-				 3450, "11856759874", "marcio.correia@gmail.com", transplante, instituicoes);
+				endereco, "11856759874", "marcio.correia@gmail.com", transplante, instituicoes);
 		daoReceptor.cadastrar(receptor);
 		
 		try {
