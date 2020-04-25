@@ -1,6 +1,7 @@
 package br.com.fiap.entity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,13 +17,23 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+
 
 @Entity
 @SequenceGenerator(name = "receptor", sequenceName = "SQ_TB_RECEPTOR", allocationSize = 1)
 @DiscriminatorValue(value="R")
 public class Receptor extends Pessoa {
 	
+	public Receptor(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpfReceptor,
+			String rgReceptor, String sexo, Endereco endereco, int codigo, String telefone, String email,
+			Transplante transplante, List<Instituicao> instituicoes) {
+		super(nome, dataNascimento, tipoSanguineo, peso, cpfReceptor, rgReceptor, sexo, endereco);
+		this.codigo = codigo;
+		this.telefone = telefone;
+		this.email = email;
+		this.transplante = transplante;
+		this.instituicoes = instituicoes;
+	}
 	//ATRIBUTOS
 	@Id
 	@Column(name="cod_receptor")

@@ -21,6 +21,17 @@ import javax.persistence.TemporalType;
 @SequenceGenerator(name = "transplante", sequenceName = "SQ_TB_TRANSPLANTE", allocationSize = 1)
 public class Transplante {
 	
+	//CONSTRUTORES
+	public Transplante() {
+		super();
+	}
+	public Transplante(Calendar dataTransplante, List<Orgao> orgaos, List<Receptor> receptores) {
+		super();
+		this.dataTransplante = dataTransplante;
+		this.orgaos = orgaos;
+		this.receptores = receptores;
+	}
+
 	//ATRIBUTOS
 	@Id
 	@Column(name="cod_transplante")
@@ -46,12 +57,6 @@ public class Transplante {
 	public void addReceptor(Receptor receptor) {
 		receptores.add(receptor);
 		receptor.setTransplante(this);
-	}
-	
-	
-	//CONSTRUTORES
-	public Transplante() {
-		super();
 	}
 	
 	//GETTERS E SETTER
