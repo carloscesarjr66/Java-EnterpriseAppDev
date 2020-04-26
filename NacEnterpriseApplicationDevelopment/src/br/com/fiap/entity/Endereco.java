@@ -4,9 +4,11 @@ package br.com.fiap.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -15,46 +17,13 @@ import javax.persistence.Table;
 @Table(name="TB_ENDERECO")
 @SequenceGenerator(name = "endereco", sequenceName = "SQ_TB_ENDERECO", allocationSize = 1)
 public class Endereco {
-	
-	//ATRIBUTOS
-	@Id
-	@Column(name="cod_end")
-	@GeneratedValue(generator = "endereco", strategy = GenerationType.SEQUENCE)
-	private int codigo;
-	
-	@Column(name = "logradouro")
-	private String logradouro;
-	
-	@Column(name = "bairro")
-	private String bairro;
-	
-	@Column(name = "cidade")
-	private String cidade;
-	
-	@Column(name = "uf")
-	private String uf;
-	
-	@Column(name = "pais")
-	private String pais;
-	
-	@Column(name = "cep")
-	private String cep;
-	
-	@OneToOne(mappedBy = "endereco")
-	private Pessoa pessoa;
-		
-	@OneToOne(mappedBy = "endereco", cascade = CascadeType.ALL)
-	private Instituicao instituicoes;
-	
-	
 	//CONSTRUTORES
 	public Endereco() {
 		super();
 	}
 	
 	
-	public Endereco(String logradouro, String bairro, String cidade, String uf, String pais, String cep, Pessoa pessoa,
-			Instituicao instituicoes) {
+	public Endereco(String logradouro, String bairro, String cidade, String uf, String pais, String cep) {
 		super();
 		this.logradouro = logradouro;
 		this.bairro = bairro;
@@ -62,10 +31,40 @@ public class Endereco {
 		this.uf = uf;
 		this.pais = pais;
 		this.cep = cep;
-		this.pessoa = pessoa;
-		this.instituicoes = instituicoes;
 	}
 
+	//ATRIBUTOS
+	@Id
+	@Column(name="cd_endereco")
+	@GeneratedValue(generator = "endereco", strategy = GenerationType.SEQUENCE)
+	private int codigo;
+	
+	@Column(name = "logradouro", length = 100)
+	private String logradouro;
+	
+	@Column(name = "bairro", length = 40)
+	private String bairro;
+	
+	@Column(name = "cidade", length = 50)
+	private String cidade;
+	
+	@Column(name = "uf", length=20)
+	private String uf;
+	
+	@Column(name = "pais", length=40)
+	private String pais;
+	
+	@Column(name = "cep", length=10)
+	private String cep;
+	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "cd_pessoa", nullable = true, unique = true)
+	private Pessoa pessoa;
+		
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "cd_instituicao", nullable = true, unique = true)
+	private Instituicao instituicao;
+	
 
 	//GETTERS E SETTERS
 	public int getCodigo() {
@@ -111,7 +110,6 @@ public class Endereco {
 		this.cep = cep;
 	}
 
-
 	public Pessoa getPessoa() {
 		return pessoa;
 	}
@@ -122,12 +120,11 @@ public class Endereco {
 	}
 
 	public Instituicao getInstituicao() {
-		return instituicoes;
+		return instituicao;
 	}
 
-
-	public void setInstituicao(Instituicao instituicoes) {
-		this.instituicoes = instituicoes;
+	public void setInstituicao(Instituicao instituicao) {
+		this.instituicao = instituicao;
 	}
 	
 }

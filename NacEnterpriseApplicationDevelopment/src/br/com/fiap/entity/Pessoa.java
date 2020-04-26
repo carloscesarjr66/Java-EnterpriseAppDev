@@ -31,15 +31,31 @@ import javax.persistence.TemporalType;
 @DiscriminatorValue("Pessoa")
 public class Pessoa {
 	
+	//CONSTRUTORES
+	public Pessoa() {
+		super();
+	}
 	
+	public Pessoa(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpf,
+			String rg, Genero genero, Endereco endereco) {
+		super();
+		this.nome = nome;
+		this.dataNascimento = dataNascimento;
+		this.tipoSanguineo = tipoSanguineo;
+		this.peso = peso;
+		this.cpf = cpf;
+		this.rg = rg;
+		this.genero = genero;
+		this.endereco = endereco;
+	}
 	//ATRIBUTOS
 	
 	@Id
-	@Column(name="cod_pessoa")
+	@Column(name="cd_pessoa")
 	@GeneratedValue(generator = "pessoa", strategy = GenerationType.SEQUENCE)
 	protected int codigo;
 	
-	@Column(name = "nome")
+	@Column(name = "nome", length = 100)
 	protected String nome;
 	
 	@Temporal(TemporalType.DATE)
@@ -53,37 +69,18 @@ public class Pessoa {
 	@Column(name = "peso")
 	protected double peso;
 	
-	@Column(name = "cpf")
+	@Column(name = "cpf", length = 11)
 	protected String cpf;
 	
-	@Column(name = "rg")
+	@Column(name = "rg", length = 15)
 	protected String rg;
 	
-	@Column(name = "sexo")
-	protected String sexo;
+	@Column(name = "genero")
+	protected Genero genero;
 	
-	@OneToOne(mappedBy = "endereco",cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JoinColumn(name="cod_end")
+	@OneToOne(mappedBy = "pessoa",cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn(name="cd_endereco")
 	protected Endereco endereco;
-
-	
-	//CONSTRUTORES
-	public Pessoa() {
-		super();
-	}
-	
-	public Pessoa(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpf,
-			String rg, String sexo, Endereco endereco) {
-		super();
-		this.nome = nome;
-		this.dataNascimento = dataNascimento;
-		this.tipoSanguineo = tipoSanguineo;
-		this.peso = peso;
-		this.cpf = cpf;
-		this.rg = rg;
-		this.sexo = sexo;
-		this.endereco = endereco;
-	}
 	
 	//GETTERS E SETTERS
 	public int getCodigo() {
@@ -128,11 +125,11 @@ public class Pessoa {
 	public void setRg(String rg) {
 		this.rg = rg;
 	}
-	public String getSexo() {
-		return sexo;
+	public Genero getSexo() {
+		return genero;
 	}
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
+	public void setSexo(Genero genero) {
+		this.genero = genero;
 	}
 	public Endereco getEndereco() {
 		return endereco;

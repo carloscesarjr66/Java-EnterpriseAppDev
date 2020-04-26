@@ -1,17 +1,17 @@
 package br.com.fiap.entity;
 
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
+import java.util.Calendar;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -23,10 +23,20 @@ import javax.persistence.TemporalType;
 @SequenceGenerator(name = "transplante", sequenceName = "SQ_TB_TRANSPLANTE", allocationSize = 1)
 public class Transplante {
 	
+	//CONSTRUTORES
+	public Transplante() {
+		super();
+	}
 	
+	public Transplante(Calendar dataTransplante, Orgao orgao, Receptor receptor) {
+		super();
+		this.dataTransplante = dataTransplante;
+		this.orgao = orgao;
+		this.receptor = receptor;
+	}
 	//ATRIBUTOS
 	@Id
-	@Column(name="cod_transplante")
+	@Column(name="cd_transplante")
 	@GeneratedValue(generator = "transplante", strategy = GenerationType.SEQUENCE)
 	private int codigo;
 	
@@ -36,32 +46,14 @@ public class Transplante {
 	private Calendar dataTransplante;
 	
 	
-	@OneToMany(mappedBy = "transplante")
-	@JoinColumn(name="cod_orgao")
-	private List<Orgao> orgaos=new ArrayList<Orgao>();
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="cd_orgao")
+	private Orgao orgao;
 	
-	public void addOrgao(Orgao orgao) {
-		orgaos.add(orgao);
-		orgao.setTransplante(this);
-	}
-	
-	@OneToOne(mappedBy = "transplante")
-	@JoinColumn(name="cod_receptor")
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="cd_receptor")
 	private Receptor receptor;
 	
-		
-	//CONSTRUTORES
-		public Transplante() {
-			super();
-		}
-		
-		public Transplante(Calendar dataTransplante, List<Orgao> orgaos, Receptor receptor) {
-			super();
-			this.dataTransplante = dataTransplante;
-			this.orgaos = orgaos;
-			this.receptor = receptor;
-		}
-
 	
 	//GETTERS E SETTER
 	public int getCodigo() {
@@ -86,14 +78,12 @@ public class Transplante {
 		this.receptor = receptor;
 	}
 
-
-	public List<Orgao> getOrgaos() {
-		return orgaos;
+	public Orgao getOrgaos() {
+		return orgao;
 	}
 
-
-	public void setOrgaos(List<Orgao> orgaos) {
-		this.orgaos = orgaos;
+	public void setOrgaos(Orgao orgao) {
+		this.orgao = orgao;
 	}
 
 }

@@ -8,36 +8,48 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 
 @Entity
+@Table(name="TB_DOADOR")
 @SequenceGenerator(name = "doador", sequenceName = "SQ_TB_DOADOR", allocationSize = 1)
 @DiscriminatorValue(value="D")
 
 public class Doador extends Pessoa {
 
+	//CONSTRUTORES
+	public Doador() {
+		super();
+		
+	}
+	
+	public Doador(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpf,
+			String rg, Genero genero, boolean stVivo, Endereco endereco) {
+		super(nome, dataNascimento, tipoSanguineo, peso, cpf, rg, genero, endereco);
+		this.stVivo = stVivo;
+	}
+	
 	//ATRIBUTOS
 	@Id
-	@Column(name="cod_doador")
+	@Column(name="cd_doador")
 	@GeneratedValue(generator = "doador", strategy = GenerationType.SEQUENCE)
 	private int codigo;
 
 	@Column(name="st_vivo")
 	private boolean stVivo; 
 	
-	@ManyToMany(cascade = CascadeType.PERSIST)
-		@JoinTable(name="TB_INSTITUICAO_DOADOR",
-				joinColumns = @JoinColumn(name="cod_doador"),
-				inverseJoinColumns = @JoinColumn(name="cod_instituicao"))
-	private List<Instituicao> instituicoes;
+	@ManyToOne(cascade =  { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@JoinColumn(name = "cd_instituicao", nullable = false)
+	Instituicao instituicao;
 	
 	@OneToMany(mappedBy="doador",cascade = CascadeType.PERSIST)
 	private List<Orgao> orgaos=new ArrayList<Orgao>();
@@ -46,19 +58,6 @@ public class Doador extends Pessoa {
 		orgaos.add(orgao);
 		orgao.setDoador(this);
 	}
-	
-	//CONSTRUTORES
-	public Doador() {
-		super();
-		
-	}
-	
-		public Doador(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpf,
-				String rg, String sexo, boolean stVivo, Endereco endereco) {
-			super(nome, dataNascimento, tipoSanguineo, peso, cpf, rg, sexo, endereco);
-			this.stVivo = stVivo;
-		}
-	
 	
 	//GETTERS E SETTERS
 	public int getCodigo() {
@@ -78,12 +77,12 @@ public class Doador extends Pessoa {
 	}
 
 
-	public List<Instituicao> getInstituicoes() {
-		return instituicoes;
+	public Instituicao getInstituicao() {
+		return instituicao;
 	}
 
-	public void setInstituicoes(List<Instituicao> instituicoes) {
-		this.instituicoes = instituicoes;
+	public void setInstituicao(Instituicao instituicao) {
+		this.instituicao = instituicao;
 	}
 	
 }

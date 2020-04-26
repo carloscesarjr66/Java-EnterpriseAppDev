@@ -6,13 +6,11 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -21,40 +19,37 @@ import javax.persistence.Table;
 @SequenceGenerator(name = "instituicao", sequenceName = "SQ_TB_INSTITUICAO", allocationSize = 1)
 public class Instituicao {
 	
-	//ATRIBUTOS
-	@Id
-	@Column(name="cod_instituicao")
-	@GeneratedValue(generator = "instituicao", strategy = GenerationType.SEQUENCE)
-	private int codigo;
-	
-	@Column(name = "nm_instituicao")
-	private String nome;
-	
-	@ManyToMany(mappedBy = "instituicoes")
-	private List<Receptor>receptores=new ArrayList<Receptor>();
-	
-	
-	@ManyToMany(mappedBy = "instituicoes")
-	private List<Doador>doadores=new ArrayList<Doador>();
-	
-	@OneToMany(mappedBy = "enderecos",cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JoinColumn(name="cod_end", nullable = false)
-	private List<Endereco>enderecos=new ArrayList<Endereco>();
-	
-	
 	//CONSTRUTORES
 	public Instituicao() {
 		super();
 	}
 	
 	
-	public Instituicao(String nome, List<Receptor> receptores, List<Doador> doadores, List<Endereco> enderecos) {
+	public Instituicao(String nome, Endereco endereco) {
 		super();
 		this.nome = nome;
-		this.receptores = receptores;
-		this.doadores = doadores;
-		this.enderecos = enderecos;
+		this.endereco = endereco;
 	}
+
+	
+	//ATRIBUTOS
+	@Id
+	@Column(name="cd_instituicao")
+	@GeneratedValue(generator = "instituicao", strategy = GenerationType.SEQUENCE)
+	private int codigo;
+	
+	@Column(name = "nm_instituicao")
+	private String nome;
+	
+	@OneToMany(mappedBy = "instituicao", cascade = CascadeType.ALL)
+	private List<Receptor>receptores=new ArrayList<Receptor>();	
+	
+	@OneToMany(mappedBy = "instituicao", cascade = CascadeType.ALL)
+	private List<Doador>doadores=new ArrayList<Doador>();
+	
+	@OneToOne(mappedBy = "instituicao", cascade = CascadeType.ALL)
+	private Endereco endereco;
+	
 
 
 	//GETTERS E SETTERS
@@ -70,11 +65,11 @@ public class Instituicao {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public List<Endereco> getEnderecos() {
-		return enderecos;
+	public Endereco getEnderecos() {
+		return endereco;
 	}
-	public void setEnderecos(List<Endereco> enderecos) {
-		this.enderecos = enderecos;
+	public void setEnderecos(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	public List<Doador> getDoadores() {
