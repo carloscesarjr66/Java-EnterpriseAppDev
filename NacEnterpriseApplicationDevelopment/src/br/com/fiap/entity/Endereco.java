@@ -1,13 +1,12 @@
 package br.com.fiap.entity;
 
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -22,25 +21,30 @@ public class Endereco {
 	@Column(name="cod_end")
 	@GeneratedValue(generator = "endereco", strategy = GenerationType.SEQUENCE)
 	private int codigo;
+	
 	@Column(name = "logradouro")
 	private String logradouro;
+	
 	@Column(name = "bairro")
 	private String bairro;
+	
 	@Column(name = "cidade")
 	private String cidade;
+	
 	@Column(name = "uf")
 	private String uf;
+	
 	@Column(name = "pais")
 	private String pais;
+	
 	@Column(name = "cep")
 	private String cep;
 	
 	@OneToOne(mappedBy = "endereco")
 	private Pessoa pessoa;
-	
-	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JoinColumn(name="cod_instituicao", nullable = false)
-	private Instituicao instituicao;
+		
+	@OneToOne(mappedBy = "endereco", cascade = CascadeType.ALL)
+	private Instituicao instituicoes;
 	
 	
 	//CONSTRUTORES
@@ -49,6 +53,20 @@ public class Endereco {
 	}
 	
 	
+	public Endereco(String logradouro, String bairro, String cidade, String uf, String pais, String cep, Pessoa pessoa,
+			Instituicao instituicoes) {
+		super();
+		this.logradouro = logradouro;
+		this.bairro = bairro;
+		this.cidade = cidade;
+		this.uf = uf;
+		this.pais = pais;
+		this.cep = cep;
+		this.pessoa = pessoa;
+		this.instituicoes = instituicoes;
+	}
+
+
 	//GETTERS E SETTERS
 	public int getCodigo() {
 		return codigo;
@@ -103,14 +121,13 @@ public class Endereco {
 		this.pessoa = pessoa;
 	}
 
-
 	public Instituicao getInstituicao() {
-		return instituicao;
+		return instituicoes;
 	}
 
 
-	public void setInstituicao(Instituicao instituicao) {
-		this.instituicao = instituicao;
+	public void setInstituicao(Instituicao instituicoes) {
+		this.instituicoes = instituicoes;
 	}
 	
 }

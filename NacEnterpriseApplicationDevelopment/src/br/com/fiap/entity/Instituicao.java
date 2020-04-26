@@ -10,8 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -32,11 +33,13 @@ public class Instituicao {
 	@ManyToMany(mappedBy = "instituicoes")
 	private List<Receptor>receptores=new ArrayList<Receptor>();
 	
-	@OneToOne(mappedBy = "instituicao", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	private Endereco endereco;
 	
-	@ManyToMany(mappedBy = "instituicao")
+	@ManyToMany(mappedBy = "instituicoes")
 	private List<Doador>doadores=new ArrayList<Doador>();
+	
+	@OneToMany(mappedBy = "enderecos",cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn(name="cod_end", nullable = false)
+	private List<Endereco>enderecos=new ArrayList<Endereco>();
 	
 	
 	//CONSTRUTORES
@@ -44,6 +47,16 @@ public class Instituicao {
 		super();
 	}
 	
+	
+	public Instituicao(String nome, List<Receptor> receptores, List<Doador> doadores, List<Endereco> enderecos) {
+		super();
+		this.nome = nome;
+		this.receptores = receptores;
+		this.doadores = doadores;
+		this.enderecos = enderecos;
+	}
+
+
 	//GETTERS E SETTERS
 	public int getCodigo() {
 		return codigo;
@@ -57,11 +70,11 @@ public class Instituicao {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public Endereco getEndereco() {
-		return endereco;
+	public List<Endereco> getEnderecos() {
+		return enderecos;
 	}
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
 	}
 
 	public List<Doador> getDoadores() {

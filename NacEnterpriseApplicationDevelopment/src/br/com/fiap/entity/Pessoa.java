@@ -31,56 +31,58 @@ import javax.persistence.TemporalType;
 @DiscriminatorValue("Pessoa")
 public class Pessoa {
 	
-	public Pessoa(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpfReceptor,
-			String rgReceptor, String sexo, Endereco endereco) {
-		super();
-		this.nome = nome;
-		this.dataNascimento = dataNascimento;
-		this.tipoSanguineo = tipoSanguineo;
-		this.peso = peso;
-		this.cpfReceptor = cpfReceptor;
-		this.rgReceptor = rgReceptor;
-		this.sexo = sexo;
-		this.endereco = endereco;
-	}
+	
 	//ATRIBUTOS
 	
 	@Id
 	@Column(name="cod_pessoa")
 	@GeneratedValue(generator = "pessoa", strategy = GenerationType.SEQUENCE)
-	private int codigo;
+	protected int codigo;
 	
 	@Column(name = "nome")
-	private String nome;
+	protected String nome;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "dt_nasc")
-	private Calendar dataNascimento;
+	protected Calendar dataNascimento;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tp_sanguineo")
-	private TipoSanguineo tipoSanguineo;
+	protected TipoSanguineo tipoSanguineo;
 	
 	@Column(name = "peso")
-	private double peso;
+	protected double peso;
 	
-	@Column(name = "cpf_recpt")
-	private String cpfReceptor;
+	@Column(name = "cpf")
+	protected String cpf;
 	
-	@Column(name = "rg_recept")
-	private String rgReceptor;
+	@Column(name = "rg")
+	protected String rg;
 	
 	@Column(name = "sexo")
-	private String sexo;
+	protected String sexo;
 	
-	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "endereco",cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name="cod_end")
-	private Endereco endereco;
+	protected Endereco endereco;
 
 	
 	//CONSTRUTORES
 	public Pessoa() {
 		super();
+	}
+	
+	public Pessoa(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpf,
+			String rg, String sexo, Endereco endereco) {
+		super();
+		this.nome = nome;
+		this.dataNascimento = dataNascimento;
+		this.tipoSanguineo = tipoSanguineo;
+		this.peso = peso;
+		this.cpf = cpf;
+		this.rg = rg;
+		this.sexo = sexo;
+		this.endereco = endereco;
 	}
 	
 	//GETTERS E SETTERS
@@ -114,17 +116,17 @@ public class Pessoa {
 	public void setPeso(double peso) {
 		this.peso = peso;
 	}
-	public String getCpfReceptor() {
-		return cpfReceptor;
+	public String getCpf() {
+		return cpf;
 	}
-	public void setCpfReceptor(String cpfReceptor) {
-		this.cpfReceptor = cpfReceptor;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
-	public String getRgReceptor() {
-		return rgReceptor;
+	public String getRg() {
+		return rg;
 	}
-	public void setRgReceptor(String rgReceptor) {
-		this.rgReceptor = rgReceptor;
+	public void setRg(String rg) {
+		this.rg = rg;
 	}
 	public String getSexo() {
 		return sexo;

@@ -10,7 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,17 +23,7 @@ import javax.persistence.TemporalType;
 @SequenceGenerator(name = "transplante", sequenceName = "SQ_TB_TRANSPLANTE", allocationSize = 1)
 public class Transplante {
 	
-	//CONSTRUTORES
-	public Transplante() {
-		super();
-	}
-	public Transplante(Calendar dataTransplante, List<Orgao> orgaos, List<Receptor> receptores) {
-		super();
-		this.dataTransplante = dataTransplante;
-		this.orgaos = orgaos;
-		this.receptores = receptores;
-	}
-
+	
 	//ATRIBUTOS
 	@Id
 	@Column(name="cod_transplante")
@@ -43,7 +35,9 @@ public class Transplante {
 	@Column(name = "dt_transplante")
 	private Calendar dataTransplante;
 	
+	
 	@OneToMany(mappedBy = "transplante")
+	@JoinColumn(name="cod_orgao")
 	private List<Orgao> orgaos=new ArrayList<Orgao>();
 	
 	public void addOrgao(Orgao orgao) {
@@ -51,13 +45,23 @@ public class Transplante {
 		orgao.setTransplante(this);
 	}
 	
-	@OneToMany(mappedBy = "transplante")
-	private List<Receptor> receptores=new ArrayList<Receptor>();
+	@OneToOne(mappedBy = "transplante")
+	@JoinColumn(name="cod_receptor")
+	private Receptor receptor;
 	
-	public void addReceptor(Receptor receptor) {
-		receptores.add(receptor);
-		receptor.setTransplante(this);
-	}
+		
+	//CONSTRUTORES
+		public Transplante() {
+			super();
+		}
+		
+		public Transplante(Calendar dataTransplante, List<Orgao> orgaos, Receptor receptor) {
+			super();
+			this.dataTransplante = dataTransplante;
+			this.orgaos = orgaos;
+			this.receptor = receptor;
+		}
+
 	
 	//GETTERS E SETTER
 	public int getCodigo() {
@@ -74,12 +78,12 @@ public class Transplante {
 		this.dataTransplante = dataTransplante;
 	}
 
-	public List<Receptor> getReceptores() {
-		return receptores;
+	public Receptor getReceptor() {
+		return receptor;
 	}
 
-	public void setReceptores(List<Receptor> receptores) {
-		this.receptores = receptores;
+	public void setReceptor(Receptor receptor) {
+		this.receptor = receptor;
 	}
 
 

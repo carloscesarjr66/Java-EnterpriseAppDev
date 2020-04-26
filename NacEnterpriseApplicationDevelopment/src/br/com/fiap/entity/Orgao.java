@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -28,18 +28,26 @@ public class Orgao {
 	private int isquemia;
 	@Column(name = "st_vital")
 	private boolean stVital;
+
+	@OneToOne(mappedBy = "orgao", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Transplante transplante;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
-	@JoinColumn(name="cod_doador")
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn(name="cod_doador", nullable = false)
 	private Doador doador;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
-	@JoinColumn(name="cod_transplante",nullable = false)
-	private Transplante transplante;
+		
 	
 	//CONSTRUTORES
 	public Orgao() {
 		super();
+	}
+	
+	public Orgao(String nome, int isquemia, boolean stVital) {
+		super();
+		this.nome = nome;
+		this.isquemia = isquemia;
+		this.stVital = stVital;
 	}
 	
 	//GETTERS E SETTERS
