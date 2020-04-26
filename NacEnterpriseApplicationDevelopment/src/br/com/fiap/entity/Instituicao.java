@@ -6,11 +6,10 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -20,30 +19,39 @@ import javax.persistence.Table;
 @SequenceGenerator(name = "instituicao", sequenceName = "SQ_TB_INSTITUICAO", allocationSize = 1)
 public class Instituicao {
 	
+	//CONSTRUTORES
+	public Instituicao() {
+		super();
+	}
+	
+	
+	public Instituicao(String nome, Endereco endereco) {
+		super();
+		this.nome = nome;
+		this.endereco = endereco;
+	}
+
+	
 	//ATRIBUTOS
 	@Id
-	@Column(name="cod_instituicao")
+	@Column(name="cd_instituicao")
 	@GeneratedValue(generator = "instituicao", strategy = GenerationType.SEQUENCE)
 	private int codigo;
 	
 	@Column(name = "nm_instituicao")
 	private String nome;
 	
-	@ManyToMany(mappedBy = "instituicoes")
-	private List<Receptor>receptores=new ArrayList<Receptor>();
+	@OneToMany(mappedBy = "instituicao", cascade = CascadeType.ALL)
+	private List<Receptor>receptores=new ArrayList<Receptor>();	
 	
-	@OneToOne(mappedBy = "instituicao", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	private Endereco endereco;
-	
-	@ManyToMany(mappedBy = "instituicao")
+	@OneToMany(mappedBy = "instituicao", cascade = CascadeType.ALL)
 	private List<Doador>doadores=new ArrayList<Doador>();
 	
+	@OneToOne(mappedBy = "instituicao", cascade = CascadeType.ALL)
+	private Endereco endereco;
 	
-	//CONSTRUTORES
-	public Instituicao() {
-		super();
-	}
-	
+
+
 	//GETTERS E SETTERS
 	public int getCodigo() {
 		return codigo;
@@ -57,10 +65,10 @@ public class Instituicao {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public Endereco getEndereco() {
+	public Endereco getEnderecos() {
 		return endereco;
 	}
-	public void setEndereco(Endereco endereco) {
+	public void setEnderecos(Endereco endereco) {
 		this.endereco = endereco;
 	}
 

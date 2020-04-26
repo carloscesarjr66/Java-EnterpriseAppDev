@@ -1,8 +1,7 @@
 package br.com.fiap.entity;
 
-import java.util.ArrayList;
+
 import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,52 +12,50 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 
 @Entity
+@Table(name="TB_RECEPTOR")
 @SequenceGenerator(name = "receptor", sequenceName = "SQ_TB_RECEPTOR", allocationSize = 1)
 @DiscriminatorValue(value="R")
-public class Receptor extends Pessoa {
+public class Receptor extends Pessoa {	
+	//CONSTRUTORES
+	public Receptor() {
+		super();
+	}
 	
-	public Receptor(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpfReceptor,
-			String rgReceptor, String sexo, Endereco endereco, String telefone, String email,
-			Transplante transplante, List<Instituicao> instituicoes) {
-		super(nome, dataNascimento, tipoSanguineo, peso, cpfReceptor, rgReceptor, sexo, endereco);
+	public Receptor(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpf,
+			String rg, Genero genero, Endereco endereco, String telefone, String email, 
+			Instituicao instituicao) {
+		super(nome, dataNascimento, tipoSanguineo, peso, cpf, rg, genero, endereco);
 		this.telefone = telefone;
 		this.email = email;
-		this.transplante = transplante;
-		this.instituicoes = instituicoes;
+		this.instituicao = instituicao;
 	}
+	
+	
 	//ATRIBUTOS
 	@Id
-	@Column(name="cod_receptor")
+	@Column(name="cd_receptor")
 	@GeneratedValue(generator = "receptor", strategy = GenerationType.SEQUENCE)
 	private int codigo;
 	@Column(name = "telefone")
 	private String telefone;
-	@Column(name = "email_recept")
+	@Column(name = "email")
 	private String email;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JoinColumn(name="cod_transplante")
+	@OneToOne(mappedBy = "receptor",cascade = CascadeType.ALL)
 	private Transplante transplante;
 	
-	@ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
-	@JoinTable(name="TB_INSTITUICAO_RECEPTOR",
-	joinColumns = @JoinColumn(name="cod_receptor"),
-	inverseJoinColumns = @JoinColumn(name="cod_instituicao"))
-	private List<Instituicao>instituicoes=new ArrayList<Instituicao>();
+	@ManyToOne(cascade =  { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@JoinColumn(name = "cd_instituicao", nullable = false)
+	private Instituicao instituicao;
 	
-	//CONSTRUTORES
-	public Receptor() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
+
 
 	//GETTERS E SETTERS
 	public int getCodigo() {
@@ -80,22 +77,18 @@ public class Receptor extends Pessoa {
 		this.email = email;
 	}
 
-
 	public Transplante getTransplante() {
 		return transplante;
 	}
 
-
 	public void setTransplante(Transplante transplante) {
 		this.transplante = transplante;
 	}
-	public List<Instituicao> getInstituicoes() {
-		return instituicoes;
+	public Instituicao getInstituicoes() {
+		return instituicao;
 	}
-	public void setInstituicoes(List<Instituicao> instituicoes) {
-		this.instituicoes = instituicoes;
+	public void setInstituicao(Instituicao instituicao) {
+		this.instituicao = instituicao;
 	}
-	
-	
 	
 }

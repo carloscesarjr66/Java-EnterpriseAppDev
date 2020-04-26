@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -17,9 +18,21 @@ import javax.persistence.Table;
 @SequenceGenerator(name = "orgao", sequenceName = "SQ_TB_ORGAO", allocationSize = 1)
 public class Orgao {
 
+	//CONSTRUTORES
+	public Orgao() {
+		super();
+	}
+		
+	public Orgao(String nome, int isquemia, boolean stVital) {
+		super();
+		this.nome = nome;
+		this.isquemia = isquemia;
+		this.stVital = stVital;
+	}
+
 	//ATRIBUTOS
 	@Id
-	@Column(name="cod_orgao")
+	@Column(name="cd_orgao")
 	@GeneratedValue(generator = "orgao", strategy = GenerationType.SEQUENCE)
 	private int codigo;
 	@Column(name = "nm_orgao")
@@ -28,19 +41,15 @@ public class Orgao {
 	private int isquemia;
 	@Column(name = "st_vital")
 	private boolean stVital;
-	
-	@ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
-	@JoinColumn(name="cod_doador")
-	private Doador doador;
-	
-	@ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
-	@JoinColumn(name="cod_transplante",nullable = false)
+
+	@OneToOne(mappedBy = "orgao", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Transplante transplante;
 	
-	//CONSTRUTORES
-	public Orgao() {
-		super();
-	}
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn(name="cd_doador", nullable = false)
+	private Doador doador;
+	
+		
 	
 	//GETTERS E SETTERS
 	public int getCodigo() {

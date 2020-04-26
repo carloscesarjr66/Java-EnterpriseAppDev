@@ -13,38 +13,43 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 
 @Entity
+@Table(name="TB_DOADOR")
 @SequenceGenerator(name = "doador", sequenceName = "SQ_TB_DOADOR", allocationSize = 1)
 @DiscriminatorValue(value="D")
-public class Doador extends Pessoa {
-	public Doador(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpfReceptor,
-			String rgReceptor, String sexo, Endereco endereco, char stVivo, List<Instituicao> instituicao,
-			List<Orgao> orgaos) {
-		super(nome, dataNascimento, tipoSanguineo, peso, cpfReceptor, rgReceptor, sexo, endereco);
-		this.stVivo = stVivo;
-		this.instituicao = instituicao;
-		this.orgaos = orgaos;
-	}
 
+public class Doador extends Pessoa {
+
+	//CONSTRUTORES
+	public Doador() {
+		super();
+		
+	}
+	
+	public Doador(String nome, Calendar dataNascimento, TipoSanguineo tipoSanguineo, double peso, String cpf,
+			String rg, Genero genero, boolean stVivo, Endereco endereco) {
+		super(nome, dataNascimento, tipoSanguineo, peso, cpf, rg, genero, endereco);
+		this.stVivo = stVivo;
+	}
+	
 	//ATRIBUTOS
 	@Id
-	@Column(name="cod_doador")
+	@Column(name="cd_doador")
 	@GeneratedValue(generator = "doador", strategy = GenerationType.SEQUENCE)
 	private int codigo;
+
 	@Column(name="st_vivo")
-	private char stVivo; 
+	private boolean stVivo; 
 	
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-		@JoinTable(name="TB_INSTITUICAO_DOADOR",
-				joinColumns = @JoinColumn(name="cod_doador"),
-				inverseJoinColumns = @JoinColumn(name="cod_instituicao"))
-	private List<Instituicao> instituicao;
+	@ManyToOne(cascade =  { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@JoinColumn(name = "cd_instituicao", nullable = false)
+	Instituicao instituicao;
 	
 	@OneToMany(mappedBy="doador",cascade = CascadeType.PERSIST)
 	private List<Orgao> orgaos=new ArrayList<Orgao>();
@@ -54,39 +59,30 @@ public class Doador extends Pessoa {
 		orgao.setDoador(this);
 	}
 	
-	//CONSTRUTORES
-	public Doador() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
-	
 	//GETTERS E SETTERS
 	public int getCodigo() {
 		return codigo;
 	}
+	
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
-	public char getStVivo() {
+	
+	public boolean getStVivo() {
 		return stVivo;
 	}
-	public void setStVivo(char stVivo) {
+	
+	public void setStVivo(boolean stVivo) {
 		this.stVivo = stVivo;
 	}
 
 
-
-	public List<Instituicao> getInstituicao() {
+	public Instituicao getInstituicao() {
 		return instituicao;
 	}
 
-	public void setInstituicao(List<Instituicao> instituicao) {
+	public void setInstituicao(Instituicao instituicao) {
 		this.instituicao = instituicao;
 	}
-
-
-
-	
 	
 }
