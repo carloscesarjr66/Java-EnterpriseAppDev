@@ -8,11 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import br.com.fiap.dao.DoadorDAO;
-import br.com.fiap.dao.InstituicaoDAO;
 import br.com.fiap.dao.OrgaoDAO;
 import br.com.fiap.dao.ReceptorDAO;
 import br.com.fiap.dao.impl.DoadorDaoImpl;
-import br.com.fiap.dao.impl.InstituicaoDaoImpl;
 import br.com.fiap.dao.impl.OrgaoDaoImpl;
 import br.com.fiap.dao.impl.ReceptorDaoImpl;
 import br.com.fiap.entity.Doador;
@@ -75,8 +73,7 @@ public class TestMainCadastrar {
 			
 		} catch (CommitException e) {
 			System.out.println("Erro, ocorreu algum problema no cadastro!");
-		}
-		
+		}	
 		em.close();
 		fabrica.close();
 	}
